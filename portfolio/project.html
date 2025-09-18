@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Luas Bangun Datar</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+    }
+
+    /* Tombol Kembali */
+    .back-btn {
+      display: inline-block;
+      margin: 20px;
+      padding: 10px 20px;
+      background: #7f8c8d;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+    .back-btn:hover {
+      background: #636e72;
+    }
+
+    /* Kalkulator */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .box {
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .btn {
+      background: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .btn:hover {
+      background: #2980b9;
+    }
+    .result {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .result-box {
+      flex: 1;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fdfdfd;
+    }
+  </style>
+</head>
+<body>
+  <!-- Tombol kembali -->
+  <a href="index.html#project" class="back-btn">← Kembali</a>
+
+  <!-- Kalkulator -->
+  <div class="container">
+    <h1>Kalkulator Luas Bangun Datar</h1>
+    <div class="grid">
+      <!-- Pilih Bangun Datar -->
+      <div class="box">
+        <h3>1) Pilih Bangun Datar</h3>
+        <label for="bangun">Bangun Datar:</label>
+        <select id="bangun">
+          <option value="persegi">Persegi</option>
+          <option value="persegiPanjang">Persegi Panjang</option>
+          <option value="segitiga">Segitiga</option>
+          <option value="lingkaran">Lingkaran</option>
+          <option value="trapesium">Trapesium</option>
+        </select>
+        <label for="satuan">Satuan Panjang:</label>
+        <select id="satuan">
+          <option value="cm">cm</option>
+          <option value="m">m</option>
+        </select>
+      </div>
+
+      <!-- Isi Parameter -->
+      <div class="box">
+        <h3>2) Isi Parameter</h3>
+        <div id="parameter"></div>
+      </div>
+    </div>
+
+    <!-- Rumus & Hasil -->
+    <div class="result">
+      <div class="result-box">
+        <h3>3) Rumus</h3>
+        <p id="rumus">--</p>
+      </div>
+      <div class="result-box">
+        <h3>Hasil</h3>
+        <p id="hasil">Isi parameter lalu klik Hitung Luas.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:20px; text-align:center;">
+      <button class="btn" onclick="hitung()">Hitung Luas</button>
+      <button class="btn" onclick="resetForm()">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    const parameterDiv = document.getElementById("parameter");
+    const rumusP = document.getElementById("rumus");
+    const hasilP = document.getElementById("hasil");
+    const bangunSelect = document.getElementById("bangun");
+
+    // Tampilkan input sesuai bangun datar
+    bangunSelect.addEventListener("change", tampilkanInput);
+    function tampilkanInput() {
+      const bangun = bangunSelect.value;
+      let html = "";
+      if (bangun === "persegi") {
+        html = '<label>Sisi:</label><input type="number" id="sisi">';
+        rumusP.innerText = "L = s × s";
+      } else if (bangun === "persegiPanjang") {
+        html = '<label>Panjang:</label><input type="number" id="panjang">' +
+               '<label>Lebar:</label><input type="number" id="lebar">';
+        rumusP.innerText = "L = p × l";
+      } else if (bangun === "segitiga") {
+        html = '<label>Alas:</label><input type="number" id="alas">' +
+               '<label>Tinggi:</label><input type="number" id="tinggi">';
+        rumusP.innerText = "L = ½ × a × t";
+      } else if (bangun === "lingkaran") {
+        html = '<label>Jari-jari:</label><input type="number" id="jari">';
+        rumusP.innerText = "L = π × r²";
+      } else if (bangun === "trapesium") {
+        html = '<label>Sisi Sejajar 1 (a):</label><input type="number" id="a">' +
+               '<label>Sisi Sejajar 2 (b):</label><input type="number" id="b">' +
+               '<label>Tinggi (t):</label><input type="number" id="t">';
+        rumusP.innerText = "L = ½ × (a + b) × t";
+      }
+      parameterDiv.innerHTML = html;
+    }
+
+    // Hitung luas
+    function hitung() {
+      const bangun = bangunSelect.value;
+      let luas = 0;
+      if (bangun === "persegi") {
+        let s = +document.getElementById("sisi").value;
+        luas = s * s;
+      } else if (bangun === "persegiPanjang") {
+        let p = +document.getElementById("panjang").value;
+        let l = +document.getElementById("lebar").value;
+        luas = p * l;
+      } else if (bangun === "segitiga") {
+        let a = +document.getElementById("alas").value;
+        let t = +document.getElementById("tinggi").value;
+        luas = 0.5 * a * t;
+      } else if (bangun === "lingkaran") {
+        let r = +document.getElementById("jari").value;
+        luas = Math.PI * r * r;
+      } else if (bangun === "trapesium") {
+        let a = +document.getElementById("a").value;
+        let b = +document.getElementById("b").value;
+        let t = +document.getElementById("t").value;
+        luas = 0.5 * (a + b) * t;
+      }
+      hasilP.innerText = "Luas = " + luas + " " + document.getElementById("satuan").value + "²";
+    }
+
+    // Reset form
+    function resetForm() {
+      parameterDiv.innerHTML = "";
+      rumusP.innerText = "--";
+      hasilP.innerText = "Isi parameter lalu klik Hitung Luas.";
+    }
+
+    // Tampilkan default
+    tampilkanInput();
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+/* Import font untuk teks & judul */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap');
+
+body {
+  /* Background gradasi biru pastel */
+  background: linear-gradient(135deg, #CEF4F8, #AEE4F8);
+  font-family: 'Quicksand', sans-serif;
+  color: #333;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Semua section seragam */
+section {
+  min-height: 100vh;           /* tinggi layar penuh */
+  padding: 80px 20px;          /* jarak atas bawah */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: transparent;     /* biar ikut gradasi body */
+}
+
+/* Judul lebih menonjol */
+h1, h2, h3 {
+  font-family: 'Pacifico', cursive;
+  color: #1E3A8A;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Teks biasa */
+p, li, span, a {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* Tombol */
+button {
+  background-color: #38BDF8;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background-color: #0EA5E9;
+}
+
+/* Khusus About */
+#about h2 {
+  font-size: 2.5rem;
+  color: #1E3A8A;
+  text-align: left;
+}
+
+#about p {
+  font-size: 1.2rem;
+  color: #1E40AF;
+  line-height: 1.8;
+}
+
+#about img {
+  width: 280px;
+  height: 280px;
+  border-radius: 20px;
+  object-fit: cover;
+  border: 5px solid #38BDF8;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
